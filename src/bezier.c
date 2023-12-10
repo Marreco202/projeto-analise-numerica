@@ -70,3 +70,7 @@ double* inverse_vector(double (*fx) (double),double (*fy) (double),double s,doub
     double* vetor = ponto_x_y(fx,fy,t);
     return vetor;
 }
+
+/*double func_ft(double s, double t, double n){
+    return s - get_s(0,t,n);
+}*/
