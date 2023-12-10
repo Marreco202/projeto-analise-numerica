@@ -38,11 +38,10 @@ double func_zt(double t){
 }
 
 double simpson(double (*f) (double), double a, double b, int n){
-    double h = (b -a)/n; 
     double ret = 0;
 
-    for(double i = a; i < b; i+=h){
-        ret+=  (h/6) * (f(i) + (4 * f(i + (h/2))) + f(i + h));
+    for(double i = a; i < b; i+=H){
+        ret+=  (H/6) * (f(i) + (4 * f(i + (H/2))) + f(i + H));
     }
     return ret;
 }
@@ -52,14 +51,22 @@ double get_s(double t1, double t2, double n){ // n == step
 }
 
 
-double *func_ft(double (*fx) (double x),double (*fy) (double x),double s, double n,double a,double b){ //
-    double *vet = myvet_cria(2);
+double func_ft(double s, double n,double a,double b){ 
     double meio,length;
-    while((b-a)> 10e-5){
+    while((b-a)> 10e-10){
         meio = (a+b)/2.0;
-        length = get_s(0,meio,n);
-    }
-    vet[0] = fx(meio);
-    vet[1] = fy(meio);    
-    return vet;
+        length = get_s(a,meio,n);
+        if (length < s) {
+            a = meio;  
+        } else {
+            b = meio;  
+        }
+    } 
+    return meio;
+}
+
+double* inverse_vector(double (*fx) (double),double (*fy) (double),double s,double n,double a ,double b){
+    double t = func_ft(s,n,a,b);
+    double* vetor = ponto_x_y(fx,fy,t);
+    return vetor;
 }
