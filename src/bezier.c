@@ -3,6 +3,7 @@
 #include <math.h>
 #include "mymatriz.h"
 #include "myvetor.h"
+#define H 0.1
 /*
 
 Alunos:
@@ -28,18 +29,15 @@ double* ponto_x_y(double (*fx) (double x), double(*fy) (double x),double t){
     return vet;
 
 }
-double derivada (double (*f) (double x), double x, double h){
-    return (f(x+h) - f(x-h)) / (2*h);
+double derivada (double (*f) (double x), double x){
+    return (f(x+H) - f(x-H)) / (2*H);
 }
 
-double func_zt(double t, double h){ //funcao que retorna S
-    return sqrt(derivada(func_xt,t,h) * derivada(func_xt,t,h) + derivada(func_yt,t,h) * derivada(func_yt,t,h) );
-    // integral(t1,t1){
-        // sqrt(x'(t)² + y'(t)²)
-    //}
+double func_zt(double t){ 
+    return sqrt(derivada(func_xt,t) * derivada(func_xt,t) + derivada(func_yt,t) * derivada(func_yt,t));
 }
 
-double simpson (double (*f) (double), double a, double b, int n){
+double simpson(double (*f) (double), double a, double b, int n){
     double h = (b -a)/n; 
     double ret = 0;
 
@@ -59,7 +57,7 @@ double *func_ft(double (*fx) (double x),double (*fy) (double x),double s, double
     double meio,length;
     while((b-a)> 10e-5){
         meio = (a+b)/2.0;
-        length = get(0,meio,n);
+        length = get_s(0,meio,n);
     }
     vet[0] = fx(meio);
     vet[1] = fy(meio);    
