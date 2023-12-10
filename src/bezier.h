@@ -1,9 +1,14 @@
 #ifndef BEZIER_H
 #define BEZIER_H
 
-double func_xt(double t);
+double func_xt1(double t);
+double func_yt1(double t);
 
-double func_yt(double t);
+double func_xt2(double t);
+double func_yt2(double t);
+
+double func_xt3(double t);
+double func_yt3(double t);
 
 double* ponto_x_y(double (*fx) (double x), double(*fy) (double x),double t);
 

@@ -1,0 +1,26 @@
+=== BEZIER 1 ===        
+passo: 0.001
+quantidade de iteracoes: 47
+Ponto x y real: (0.502700,0.530700)
+Ponto x y aproximado obtido atraves de p*: (0.506792,0.535335)
+Percentual de erro em x: 0.814047085742%
+Percentual de erro em y: 0.873301808937%
+================
+
+=== BEZIER 1 ===        
+passo: 0.0001
+quantidade de iteracoes: 47
+Ponto x y real: (0.502700,0.530700)
+Ponto x y aproximado obtido atraves de p*: (0.502700,0.530700)
+Percentual de erro em x: 0.000000000071%
+Percentual de erro em y: 0.000000000076%
+================
+
+==== BEZIER 1 ===        
+passo: 0.00001
+quantidade de iteracoes: 47
+Ponto x y real: (0.502700,0.530700)
+Ponto x y aproximado obtido atraves de p*: (0.502700,0.530700)
+Percentual de erro em x: 0.000000001195%
+Percentual de erro em y: 0.000000001281%
+================
