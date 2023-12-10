@@ -14,13 +14,7 @@ Matheus Valejo - 2011536
 
 */
 
-double func_xt(double t){
-    return 0.5+ 0.3*t + 3.9*t*t - 4.7*t*t*t;
-}
 
-double func_yt(double t){
-    return 1.5+ 0.3*t + 0.9*t*t - 2.7*t*t*t;
-}
 
 double* ponto_x_y(double (*fx) (double x), double(*fy) (double x),double t){
     double *vet = myvet_cria(2);
@@ -33,40 +27,41 @@ double derivada (double (*f) (double x), double x){
     return (f(x+H) - f(x-H)) / (2*H);
 }
 
-double func_zt(double t){ 
-    return sqrt(derivada(func_xt,t) * derivada(func_xt,t) + derivada(func_yt,t) * derivada(func_yt,t));
+double func_zt(double t, double (*fx) (double), double (*fy) (double)){ 
+    return sqrt(derivada(fx,t) * derivada(fx,t) + derivada(fy,t) * derivada(fy,t));
 }
 
-double simpson(double (*f) (double), double a, double b, int n){
+double simpson(double (*f) (double,double (*fx)(double),double(*fy) (double)), double a, double b, int n,double (*fx) (double), double (*fy) (double)){
     double ret = 0;
 
     for(double i = a; i < b; i+=H){
-        ret+=  (H/6) * (f(i) + (4 * f(i + (H/2))) + f(i + H));
+        ret+=  (H/6) * (f(i,fx,fy) + (4 * f(i + (H/2),fx,fy)) + f(i + H,fx,fy));
     }
     return ret;
 }
 
-double get_s(double t1, double t2, double n){ // n == step
-    return simpson(func_zt, t1,t2,n);
+double get_s(double t1, double t2, double n,double (*fx) (double), double (*fy) (double)){ // n == step
+    return simpson(func_zt, t1,t2,n,fx,fy);
 }
 
 
-double func_ft(double s, double n,double a,double b){ //s = comprimento da curva,n = step, a = menor ponto da integral, b = maior ponto da integral
+double func_ft(double s, double n,double a,double b,double (*fx) (double), double (*fy) (double)){ //s = comprimento da curva,n = step, a = menor ponto da integral, b = maior ponto da integral
     double meio,length;
     double t1 = a;
     double t2 = b;
-    while(fabs(t2-t1) > 1e-14){ 
+    while(fabs(t2-t1) > 1e-10){ 
         meio = (t1+t2)/2.0;
-        length = get_s(a,meio,n);
+        length = get_s(a,meio,n,fx,fy);
         if (length < s) {
             /*
             printf("L:%f\n",length);
             printf("A%f\n",a);
-            printf("M:%f\n",meio);*/
+            printf("M:%f\n",meio);
+            */
             t1 = meio;  
         
         } else {
-        /*
+            /*
             printf("L:%f\n",length);
             printf("B%f\n",b);
             printf("M:%f\n",meio);
@@ -80,7 +75,7 @@ double func_ft(double s, double n,double a,double b){ //s = comprimento da curva
 }
 
 double* inverse_vector(double (*fx) (double),double (*fy) (double),double s,double n,double a ,double b){ //s = comprimento da curva,n = step, a = menor ponto da integral, b = maior ponto da integral
-    double t = func_ft(s,n,a,b);
+    double t = func_ft(s,n,a,b,fx,fy);
     double* vetor = ponto_x_y(fx,fy,t);
     return vetor;
 }
