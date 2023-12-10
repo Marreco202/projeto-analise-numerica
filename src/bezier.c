@@ -51,7 +51,7 @@ double get_s(double t1, double t2, double n){ // n == step
 }
 
 
-double func_ft(double s, double n,double a,double b){ 
+double func_ft(double s, double n,double a,double b){ //s = comprimento da curva,n = step, a = menor ponto da integral, b = maior ponto da integral
     double meio,length;
     while((b-a)> 10e-10){
         meio = (a+b)/2.0;
@@ -65,7 +65,7 @@ double func_ft(double s, double n,double a,double b){
     return meio;
 }
 
-double* inverse_vector(double (*fx) (double),double (*fy) (double),double s,double n,double a ,double b){
+double* inverse_vector(double (*fx) (double),double (*fy) (double),double s,double n,double a ,double b){ //s = comprimento da curva,n = step, a = menor ponto da integral, b = maior ponto da integral
     double t = func_ft(s,n,a,b);
     double* vetor = ponto_x_y(fx,fy,t);
     return vetor;
