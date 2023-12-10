@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-
+#include "mymatriz.h"
+#include "myvetor.h"
 /*
 
 Alunos:
@@ -20,6 +21,13 @@ double func_yt(double t){
     return 1.5+ 0.3*t + 0.9*t*t - 2.7*t*t*t;
 }
 
+double* ponto_x_y(double (*fx) (double x), double(*fy) (double x),double t){
+    double *vet = myvet_cria(2);
+    vet[0] = fx(t);
+    vet[1] = fy(t);
+    return vet;
+
+}
 double derivada (double (*f) (double x), double x, double h){
     return (f(x+h) - f(x-h)) / (2*h);
 }
