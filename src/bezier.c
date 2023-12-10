@@ -49,7 +49,8 @@ double func_ft(double s, double n,double a,double b,double (*fx) (double), doubl
     double meio,length;
     double t1 = a;
     double t2 = b;
-    while(fabs(t2-t1) > 1e-10){ 
+    int iteracoes = 0;
+    while(fabs(t2-t1) > 1e-12){ 
         meio = (t1+t2)/2.0;
         length = get_s(a,meio,n,fx,fy);
         if (length < s) {
@@ -60,7 +61,7 @@ double func_ft(double s, double n,double a,double b,double (*fx) (double), doubl
             */
             t1 = meio;  
         
-        } else {
+        } else if(length >s){
             /*
             printf("L:%f\n",length);
             printf("B%f\n",b);
@@ -70,7 +71,13 @@ double func_ft(double s, double n,double a,double b,double (*fx) (double), doubl
             t2 = meio;  
 
         }
+        else{
+            printf("%d ",iteracoes);
+            return meio;
+        }
+        iteracoes++;
     } 
+    printf("%d ",iteracoes);
     return meio;
 }
 
