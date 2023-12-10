@@ -3,7 +3,7 @@
 #include <math.h>
 #include "mymatriz.h"
 #include "myvetor.h"
-#define H 0.001
+#define H 0.1
 /*
 
 Alunos:
@@ -61,7 +61,7 @@ double func_ft(double s, double n,double a,double b,double (*fx) (double), doubl
             */
             t1 = meio;  
         
-        } else if(length >s){
+        } else{
             /*
             printf("L:%f\n",length);
             printf("B%f\n",b);
@@ -71,10 +71,7 @@ double func_ft(double s, double n,double a,double b,double (*fx) (double), doubl
             t2 = meio;  
 
         }
-        else{
-            printf("%d ",iteracoes);
-            return meio;
-        }
+      
         iteracoes++;
     } 
     printf("%d ",iteracoes);
