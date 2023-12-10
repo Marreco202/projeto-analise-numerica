@@ -3,7 +3,7 @@
 #include <math.h>
 #include "mymatriz.h"
 #include "myvetor.h"
-#define H 0.1
+#define H 0.001
 /*
 
 Alunos:
@@ -53,13 +53,27 @@ double get_s(double t1, double t2, double n){ // n == step
 
 double func_ft(double s, double n,double a,double b){ //s = comprimento da curva,n = step, a = menor ponto da integral, b = maior ponto da integral
     double meio,length;
-    while((b-a)> 10e-10){
-        meio = (a+b)/2.0;
+    double t1 = a;
+    double t2 = b;
+    while(fabs(t2-t1) > 1e-14){ 
+        meio = (t1+t2)/2.0;
         length = get_s(a,meio,n);
         if (length < s) {
-            a = meio;  
+            /*
+            printf("L:%f\n",length);
+            printf("A%f\n",a);
+            printf("M:%f\n",meio);*/
+            t1 = meio;  
+        
         } else {
-            b = meio;  
+        /*
+            printf("L:%f\n",length);
+            printf("B%f\n",b);
+            printf("M:%f\n",meio);
+            */
+
+            t2 = meio;  
+
         }
     } 
     return meio;
