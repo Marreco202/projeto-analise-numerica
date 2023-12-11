@@ -3,7 +3,8 @@
 #include <math.h>
 #include "mymatriz.h"
 #include "myvetor.h"
-#define H 0.1
+#include "bezier.h"
+#define H 0.0001
 /*
 
 Alunos:
@@ -14,6 +15,7 @@ Matheus Valejo - 2011536
 
 */
 
+double tol = 10e-9;
 
 
 double* ponto_x_y(double (*fx) (double x), double(*fy) (double x),double t){
@@ -40,41 +42,25 @@ double simpson(double (*f) (double,double (*fx)(double),double(*fy) (double)), d
     return ret;
 }
 
-double get_s(double t1, double t2, double n,double (*fx) (double), double (*fy) (double)){ // n == step
-    return simpson(func_zt, t1,t2,n,fx,fy);
-}
-
 
 double func_ft(double s, double n,double a,double b,double (*fx) (double), double (*fy) (double)){ //s = comprimento da curva,n = step, a = menor ponto da integral, b = maior ponto da integral
     double meio,length;
     double t1 = a;
     double t2 = b;
     int iteracoes = 0;
+
     while(fabs(t2-t1) > 1e-12){ 
         meio = (t1+t2)/2.0;
         length = get_s(a,meio,n,fx,fy);
         if (length < s) {
-            /*
-            printf("L:%f\n",length);
-            printf("A%f\n",a);
-            printf("M:%f\n",meio);
-            */
             t1 = meio;  
-        
         } else{
-            /*
-            printf("L:%f\n",length);
-            printf("B%f\n",b);
-            printf("M:%f\n",meio);
-            */
-
             t2 = meio;  
-
         }
-      
         iteracoes++;
     } 
-    printf("%d ",iteracoes);
+     
+    printf("iteracoes: %d \n",iteracoes);
     return meio;
 }
 
@@ -84,6 +70,29 @@ double* inverse_vector(double (*fx) (double),double (*fy) (double),double s,doub
     return vetor;
 }
 
-/*double func_ft(double s, double t, double n){
-    return s - get_s(0,t,n);
-}*/
+static double S(double (*f) (double,double (*f1)(double),double(*f2) (double)), const double a, const double b, double (*fx)(double x), double (*fy)(double y));
+
+
+double adaptsimpson(double a, double b, double (*f) (double,double (*f1)(double),double(*f2) (double)), double tol, double (*fx)(double x), double (*fy)(double y)) {
+	const double m = (a + b) / 2.0;
+	const double delta = S(f, a, b,fx,fy) - (S(f, a, m,fx,fy) + S(f, m, b,fx,fy));
+
+	if (fabs(delta) > 15.0 * tol) {
+		const double halfTol = tol/2.0;
+		return adaptsimpson(a, m, f, halfTol,fx,fy) + adaptsimpson(m, b, f, halfTol,fx,fy);
+	} else {
+		return S(f, a, m,fx,fy) + S(f, m, b,fx,fy) - (delta/15.0);
+	}
+}
+
+static double S(double (*f) (double,double (*f1)(double),double(*f2) (double)), const double a, const double b, double (*fx)(double x), double (*fy)(double y)) { //um passo se simpson
+	const double h = b - a;
+	
+	return (h/6.0) * (f(a,fx,fy) + 4.0*f((a+b)/2.0,fx,fy) + f(b,fx,fy));
+}
+
+double get_s(double t1, double t2, double n,double (*fx) (double), double (*fy) (double)){ // n == step
+    // return simpson(func_zt, t1,t2,n,fx,fy);
+    return adaptsimpson(t1,t2,func_zt,tol,fx,fy);
+}
+
