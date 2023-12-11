@@ -21,10 +21,21 @@ plt.plot(x_values, y_values, label='Curva de Bezier')
 plt.title('Curva de Bezier')
 plt.xlabel('X')
 plt.ylabel('Y')
-plt.plot(-24.247000,0.324000, 'ro', label='Ponto real com t = 0.9')
-plt.plot(-24.175872,0.327421, 'b.', label='Ponto em t = 0.9 com passo 0.001')
-plt.plot(-24.247000,0.324000, 'g.', label='Ponto em t = 0.9 com passo 0.0001')
-plt.plot(-24.247000,0.324000, 'y.', label='Ponto em t = 0.9 com passo 0.00001')
+
+
+plt.plot(-0.357000,0.756000, 'ro', label='Ponto real com t = 0.1')
+plt.plot(-0.357000,0.756000, 'b.', label='Ponto em t = 0.1 com passo 0.0001')
+
+plt.plot(-0.176000,1.248000, 'go', label='Ponto real com t = 0.2')
+plt.plot(-0.176000,1.248000, 'y.', label='Ponto em t = 0.1 com passo 0.0001')
+
+plt.plot(-0.379000,1.512000, 'ro', label='Ponto real com t = 0.3')
+plt.plot(-0.379000,1.512000, 'b.', label='Ponto em t = 0.25 com passo 0.01')
+
+plt.plot(-3.953125,0.843750, 'go', label='Ponto real com t = 0.75')
+plt.plot(-3.953125,0.843750, 'y.', label='Ponto em t = 0.75 com passo 0.01')
+
 plt.legend()
+plt.xlim([-10, 10])
 plt.grid(linewidth=1, alpha = 1)
 plt.show()
